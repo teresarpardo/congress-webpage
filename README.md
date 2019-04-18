@@ -6,4 +6,4 @@ A responsive website that manipulates JSON data to display Senate and House stat
 
 - ***Task 2:*** HTTP requests to a server using Fetch API.
 
-- ***Task 3:*** Adding Vue.js components
+- ***Task 3:*** Adding Vue.js components.

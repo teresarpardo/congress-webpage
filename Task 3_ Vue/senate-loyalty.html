@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <!--Font Awesome-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        <title>Senate</title>
+    </head>
+    
+    <body class= "container">
+        <header class="row  align-items-center">                
+            <img class="col-sm-1" src="referencias/logo.png"></img>
+            <h1 class="col-sm-3 h4 text-secondary">Transparent Government in Fact</h1>
+            <div class="col-sm-8 text-right">
+                <i class="fa fa-envelope-o"></i>
+                <a href="mailto:info@tgif.net" target="_top">info@tgif.net</a>
+            </div>
+        </header>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border border-dark  mb-5 ">
+            <div  id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link nav-hover" href="home.html">Home</a>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Congress 13</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item"><a class="nav-link" href="senate-data.html">Senate</a></li>
+                                <li class="dropdown-item"><a class="nav-link" href="house-data.html">House</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Attendance</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item"><a class="nav-link" href="senate-attendance.html">Senate</a></li>
+                                <li class="dropdown-item"><a class="nav-link" href="house-attendance.html">House</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown active">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Party Loyalty</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item active"><a class="nav-link" href="senate-loyalty.html">Senate</a></li>
+                                <li class="dropdown-item"><a class="nav-link" href="house-loyalty.html">House</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+            </div>
+        </nav> 
+        <!--Table container-->
+        <div id="app">
+            <section class="row mb-4">
+                <div class="col-sm-7">
+                    <h2>Party Loyalty</h2>
+                        <p>Those who consider themselves to be strong partisans, strong Democrats and strong Republicans respectively, tend to be the most faithful in voting for their party's nominee for office and legislation that backs their party's agenda. </p>
+                </div>
+
+                <div class="col-sm-5">
+                    <h3 class="h4 text-right">Senate at a glance</h3>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Party</th>
+                                <th>Number of Reps</th>
+                                <th>% Voted with Prty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Republican</td>
+                                <td id="rep-number">{{ republicans.length }}</td>
+                                <td id="rep-pct">{{findAvgVotes(republicans)}}</td>
+                            </tr>
+                            <tr>
+                                <td>Democrat</td>
+                                <td id="dem-number">{{ democrats.length }}</td>
+                                <td id="dem-pct">{{findAvgVotes(democrats)}}</td>
+                            </tr>
+                            <tr>
+                                <td>Independent</td>
+                                <td id="ind-number">{{ independents.length }}</td>
+                                <td id="ind-pct">{{findAvgVotes(independents)}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td id="total-number">{{members.length}}</td>
+                                <td id="total-pct">{{findAvgVotes(members)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <hr/>
+            <section class="row mt-5">
+                    <div class="col-sm-6">
+                        <h3 class=h4>Least Loyal (Bottom 10% of Party)</h3>
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number Party Votes</th>
+                                    <th>% Party Votes</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(member, index) in findLlMe('votes_with_party_pct')">
+                                <td><a :href=member.url>{{member.last_name}}, {{member.first_name}}  {{member.middle_name || ""}}</a></td>
+                                <td>{{member.total_votes}}</td>
+                                <td>{{member.votes_with_party_pct}}</td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <h3 class=h4>Most Loyal (Top 10% of Party)</h3>
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number Party Votes</th>
+                                    <th>% Party Votes</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(member, index) in findLeMl('votes_with_party_pct')"> 
+                                <td><a :href=member.url>{{member.last_name}}, {{member.first_name}}  {{member.middle_name || ""}}</a></td>
+                                <td>{{member.total_votes}}</td>
+                                <td>{{member.votes_with_party_pct}}</td>
+                            </tbody>
+                        </table>
+                    </div>
+            </section>
+        </div>
+
+        <footer class="footer-light bg-light border border-dark mt-4">
+            <div class="footer-copyright text-center py-3">2016 TGIF | All Rights Reserved</div>
+        </footer>
+
+         <!---Archivos de JavaScript-->
+        <div>
+            <script src="https://unpkg.com/vue"></script>
+            <script>
+                let url = "https://api.propublica.org/congress/v1/113/senate/members.json";
+            </script>
+            <script src="scripts/statistics.js"></script> 
+        </div>
+        <!---JQuery-->
+        <div> 
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        </div>  
+</body>
+</html>
